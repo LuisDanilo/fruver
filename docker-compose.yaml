@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=fruver
+      - POSTGRES_USER=danilo
+      - POSTGRES_PASSWORD=Danilo123
+    ports:
+      - "5432:5432"
+    volumes:
+      # - ./db/pgdata:/var/lib/postgresql/data
+      - ./db/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  web:
+    image: php:7.3-apache
+    container_name: docker-php
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www/html
+    links:
+      - db
